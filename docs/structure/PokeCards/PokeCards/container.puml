@@ -1,0 +1,27 @@
+@startuml
+!include https://raw.githubusercontent.com/adrianvlupu/C4-PlantUML/latest/C4_Component.puml
+
+LAYOUT_WITH_LEGEND()
+
+System_Ext(cognito, "Amazon Cognito", "User management, providing hosted UI for login.")
+
+Person(buyer, "Buyer")
+Person(seller, "Seller")
+
+Container(backend, "Backend", "Python, modular monolith")
+
+Container_Boundary(pokecards, "Poke Cards Frontend") {
+    Component(main, "main", "JavaScript", "Entrypoint for application, checks if user is authenticated and renders the Svelte application.")
+
+    Component(auth, "authentication", "JavaScript", "Provides the interface for Cognito service, including managing the tokens.")
+    Component(http, "http", "JavaScript", "Provides methods to perform HTTP requests to the backend.")
+
+    Rel(main, auth, "Passes token from Cognito")
+}
+
+Rel(http, backend, "Performs requests")
+Rel(buyer, cognito, "Authenticates")
+Rel(seller, cognito, "Authenticates")
+Rel(auth, cognito, "Obtains token")
+
+@enduml

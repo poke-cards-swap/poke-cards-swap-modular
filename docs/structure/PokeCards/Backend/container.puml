@@ -1,0 +1,27 @@
+@startuml
+!include https://raw.githubusercontent.com/adrianvlupu/C4-PlantUML/latest/C4_Component.puml
+
+LAYOUT_WITH_LEGEND()
+
+System_Ext(cognito, "Amazon Cognito", "User management")
+
+Container_Boundary(pokemoncards, "Backend") {
+    Container(cards, "Pokemon Cards", "TBA", "List with pokemon cards managed by admin")
+    Container(cardsdb, "Pokemon Cards DB", "PostgreSQL", "Stores Pokemon cards")
+
+    Container(offers, "Offers", "TBA", "Contains everything related to the auctions")
+    Container(offersdb, "Offers DB", "PostgreSQL", "Stores auctions data")
+
+    Container(users, "Users", "Python, 2-layered", "Users module to connect with Cognito")
+
+    Container(transfers, "Transfers", "TBA", "Transfers module with PayPal integration")
+    Container(transfersdb, "Transfers DB", "PostgreSQL", "Stores payments data")
+
+    Rel(cards, cardsdb, "Stores data")
+    Rel(offers, offersdb, "Stores data")
+    Rel(transfers, transfersdb, "Stores data")
+}
+
+Rel(users, cognito, "Authorizes users")
+
+@enduml
