@@ -1,0 +1,50 @@
+name: Check Backend
+
+on:
+  pull_request:
+    paths:
+    - 'backend/**'
+    - '.github/workflows/check-backend.yml'
+
+jobs:
+  lint-backend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Cache Python Dependencies
+        uses: actions/cache@v1
+        env:
+          cache-name: cache-python
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/requirements/*.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Use Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: Install Python Dependencies
+        run: pip install -r backend/requirements/local.txt
+
+      - name: Run black
+        run: black . --check
+        working-directory: backend
+
+      - name: Lint code
+        env:
+          PYTHONPATH: ${{ github.workspace }}/backend
+        run: find . -name '*.py' | grep -v alembic | xargs pylint
+        working-directory: backend
+
+      - name: Run mypy
+        env:
+          PYTHONPATH: ${{ github.workspace }}/backend
+        run: find . -name '*.py' | grep -v alembic | xargs mypy
+        working-directory: backend
