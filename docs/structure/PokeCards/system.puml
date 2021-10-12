@@ -39,6 +39,6 @@ Rel(buyer, cognito, "Authenticates")
 Rel(admin, cognito, "Authenticates")
 Rel(seller, cognito, "Authenticates")
 
-Rel(users, cognito, "Authorizes users")
+Rel(cards, cognito, "Authorizes users")
 
 @enduml
