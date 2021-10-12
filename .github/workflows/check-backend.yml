@@ -24,10 +24,11 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
-      - name: Use Python 3.10
-        uses: actions/setup-python@v1
+
+      - name: Use Python 3.9
+        uses: actions/setup-python@v2
         with:
-          python-version: 3.10
+          python-version: 3.9
 
       - name: Install Python Dependencies
         run: pip install -r backend/requirements/local.txt
