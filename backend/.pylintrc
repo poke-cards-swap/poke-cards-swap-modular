@@ -1,0 +1,30 @@
+[MASTER]
+disable=
+    C0114,
+    C0115,
+    C0116,
+    C0103,
+    R1710,
+    R0911,
+    W1203,
+    R0801,
+
+ignore=alembic,requirements
+ignore-patterns=pytest.ini
+max-line-length=88
+
+[SIMILARITIES]
+# Minimum lines number of a similarity.
+min-similarity-lines=5
+
+# Ignore comments when computing similarities.
+ignore-comments=yes
+
+# Ignore docstrings when computing similarities.
+ignore-docstrings=yes
+
+# Ignore imports when computing similarities.
+ignore-imports=yes
+
+[TYPECHECK]
+generated-members=session.*
