@@ -1,3 +1,4 @@
+# pylint: disable=import-outside-toplevel,too-many-locals
 import os
 
 from flask import Flask
@@ -19,6 +20,12 @@ def create_cards_app():
         os.makedirs(app.instance_path)
     except OSError:
         pass
+
+    from gateway import (
+        root_blueprint,
+    )
+
+    app.register_blueprint(root_blueprint)
 
     @app.route("/health", methods=["GET"])
     def health():  # pylint: disable=unused-variable
