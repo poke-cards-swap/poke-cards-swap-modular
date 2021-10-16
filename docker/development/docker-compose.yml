@@ -1,0 +1,23 @@
+version: '3.9'
+
+networks:
+  poke-cards-swap:
+
+volumes:
+  poke-cards-swap-backend-pip-cache:
+
+services:
+  poke-cards-swap-backend:
+    restart: "no"
+    build:
+      context: ../../backend
+      dockerfile: ../docker/images/Backend/Dockerfile
+    ports:
+      - "9000:9000"
+    environment:
+      PYTHONPATH: /app
+    volumes:
+      - "../../backend:/app"
+      - "poke-cards-swap-backend-pip-cache:/root/.cache/pip"
+    networks:
+      poke-cards-swap:

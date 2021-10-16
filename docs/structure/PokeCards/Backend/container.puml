@@ -6,20 +6,25 @@ LAYOUT_WITH_LEGEND()
 System_Ext(cognito, "Amazon Cognito", "User management")
 
 Container_Boundary(pokemoncards, "Backend") {
-    Container(cards, "Pokemon Cards", "TBA", "List with pokemon cards managed by admin")
-    Container(cardsdb, "Pokemon Cards DB", "PostgreSQL", "Stores Pokemon cards")
+    Component(cards, "Pokemon Cards", "TBA", "List with pokemon cards managed by admin")
+    Component(cardsdb, "Pokemon Cards DB", "PostgreSQL", "Stores Pokemon cards")
 
-    Container(offers, "Offers", "TBA", "Contains everything related to the auctions")
-    Container(offersdb, "Offers DB", "PostgreSQL", "Stores auctions data")
+    Component(offers, "Offers", "TBA", "Contains everything related to the auctions")
+    Component(offersdb, "Offers DB", "PostgreSQL", "Stores auctions data")
 
-    Container(users, "Users", "Python, 2-layered", "Users module to connect with Cognito")
+    Component(users, "Users", "Python, 2-layered", "Users module to connect with Cognito")
 
-    Container(transfers, "Transfers", "TBA", "Transfers module with PayPal integration")
-    Container(transfersdb, "Transfers DB", "PostgreSQL", "Stores payments data")
+    Component(transfers, "Transfers", "TBA", "Transfers module with PayPal integration")
+    Component(transfersdb, "Transfers DB", "PostgreSQL", "Stores payments data")
+
+    Component(gateway, "Gateway", "Flask", "Renders templates and passes the requests.")
+    Component(main, "main", "Python", "Coordinates application startup.")
 
     Rel(cards, cardsdb, "Stores data")
     Rel(offers, offersdb, "Stores data")
     Rel(transfers, transfersdb, "Stores data")
+
+    Rel(main, gateway, "Starts")
 }
 
 Rel(users, cognito, "Authorizes users")
