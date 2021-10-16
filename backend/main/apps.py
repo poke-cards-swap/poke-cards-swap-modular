@@ -2,6 +2,7 @@ import os
 
 from flask import Flask
 from flask_cors import CORS
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 
 def create_cards_app():
@@ -24,3 +25,9 @@ def create_cards_app():
         return "", 204
 
     return app
+
+
+def create_cards_app_with_proxy():
+    app = create_cards_app()
+
+    return ProxyFix(app, x_for=1, x_host=1)
