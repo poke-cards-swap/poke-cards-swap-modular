@@ -1,0 +1,25 @@
+@startuml
+!include https://raw.githubusercontent.com/adrianvlupu/C4-PlantUML/latest/C4_Context.puml
+
+LAYOUT_WITH_LEGEND()
+
+Person(admin, "Administrator")
+
+Person_Ext(buyer, "Buyer", "Buy cards")
+Person_Ext(seller, "Seller", "Sell cards")
+
+System(cards, "Poke Swap Cards", "Entire Poke Swap Cards system")
+
+System_Ext(cognito, "Amazon Cognito", "User management")
+
+Rel(admin, cards, "Manage cards and auctions")
+Rel(buyer, cards, "Buy cards")
+Rel(seller, cards, "Sell cards")
+
+Rel(cards, cognito, "Authorizes users")
+
+Rel(admin, cognito, "Authenticates")
+Rel(buyer, cognito, "Authenticates")
+Rel(seller, cognito, "Authenticates")
+
+@enduml

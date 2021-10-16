@@ -1,0 +1,21 @@
+version: "3.9"
+
+networks:
+  poke-cards-swap-docs:
+
+volumes:
+  poke-generated-docs:
+
+services:
+  poke-cards-swap-docs:
+    restart: "no"
+    build:
+      context: ../../docs
+      dockerfile: ../docker/images/C4Builder/Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - "../../docs:/app"
+      - "poke-generated-docs:/app/generated"
+    working_dir: "/app"
+    command: ["-w", "site"]

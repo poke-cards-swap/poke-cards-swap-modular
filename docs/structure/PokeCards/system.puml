@@ -1,0 +1,44 @@
+@startuml
+!include https://raw.githubusercontent.com/adrianvlupu/C4-PlantUML/latest/C4_Container.puml
+
+LAYOUT_WITH_LEGEND()
+
+Person(admin, "Administrator")
+
+Person_Ext(buyer, "Buyer", "Buy cards")
+Person_Ext(seller, "Seller", "Sell cards")
+
+System(pokemoncards, "Poke Cards Swap", "Pokomon cards auctions proxy")
+
+System_Ext(cognito, "Amazon Cognito", "User management")
+
+System_Boundary(pokemoncards, "Poke Cards Swap") {
+    Container(cardsdb, "Pokemon Cards DB", "PostgreSQL", "Stores Pokemon cards")
+    Container(offersdb, "Offers DB", "PostgreSQL", "Stores offers data")
+    Container(transfersdb, "Transfers DB", "PostgreSQL", "Stores transfers data")
+
+    Container(cards, "Backend", "Python, modular monotlith", "Main application providing business logic.")
+
+    Container(adminpanel, "Admin Panel", "Svelte", "Admin panel for managing Pokemon cards and auctions")
+    Container(cardsfrontend, "Main frontend APP", "Svelte", "Main frontend application for buyers and sellers")
+
+    Rel(adminpanel, cards, "Passes requests", "HTTPS")
+    Rel(cardsfrontend, cards, "Passes requests", "HTTPS")
+
+    Rel(cards, cardsdb, "Stores data")
+    Rel(cards, offersdb, "Stores data")
+    Rel(cards, transfersdb, "Stores data")
+}
+
+Rel(admin, adminpanel, "Manages auctions")
+
+Rel(buyer, cardsfrontend, "Buys cards")
+Rel(seller, cardsfrontend, "Sell cards")
+
+Rel(buyer, cognito, "Authenticates")
+Rel(admin, cognito, "Authenticates")
+Rel(seller, cognito, "Authenticates")
+
+Rel(cards, cognito, "Authorizes users")
+
+@enduml
