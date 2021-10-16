@@ -3,6 +3,9 @@ version: '3.9'
 networks:
   poke-cards-swap:
 
+volumes:
+  poke-cards-swap-backend-pip-cache:
+
 services:
   poke-cards-swap-backend:
     restart: "no"
